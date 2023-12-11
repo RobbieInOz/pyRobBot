@@ -20,6 +20,7 @@ from gtts import gTTS
 from loguru import logger
 from openai import OpenAI
 
+import streamlit as st
 from .chat import Chat
 from .chat_configs import VoiceChatConfigs
 from .general_utils import retry
@@ -284,7 +285,9 @@ class VoiceChat(Chat):
         """Convert text to speech using OpenAI's TTS."""
         logger.debug("OpenAI TTS received: '{}'", text)
         text = text.strip()
-        client = OpenAI(timeout=self.timeout)
+        client = OpenAI(
+            api_key=st.secrets["OPENAI_API_KEY_ENV"]
+        )
 
         openai_tts_model = "tts-1"
 
